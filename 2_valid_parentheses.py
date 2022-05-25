@@ -1,25 +1,29 @@
-class Solution:       
-    def isValid(self, s: str) -> bool:
-        l = {'(': 0, '{': 1, '[': 2}
-        r = {')': 0, '}': 1, ']': 2}
-        
+class Solution:   
+    p = {'(': ')', '{': '}', '[': ']'}
+            
+    def isValid(self, s: str) -> bool:   
+        # odd length strings will never be valid
+        if len(s) % 2:
+            return False
+           
         stack = []
         
         for ch in s:
-            if ch in l:
+            # push open parantheses to the stack
+            if ch in self.p:
                 stack.append(ch)
             
             else:
+                # invalid if closing without any opened parantheses
                 if not stack:
                     return False
                 
-                top = stack[-1]
-                
-                if l[top] == r[ch]:
-                    stack.pop()
-                else:
+                # invalid if the current closing parantheses
+                # do not correspond with the latest open parantheses
+                if self.p[stack.pop()] != ch:
                     return False
                 
+        # invalid if there is still open parantheses
         return len(stack) == 0
     
     
